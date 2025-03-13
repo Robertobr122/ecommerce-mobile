@@ -22,13 +22,13 @@ export default function TabLayout() {
               color: 'white'
             },
             headerStyle: {
-              backgroundColor: '#0EDFBD'
+              backgroundColor: '#5bb7b6'
             },
             title: 'Home',
             headerRight: () => <MenuHeader/>,
             tabBarIcon: () => <MaterialCommunityIcons name="home" size={24} color='white'/>,
             tabBarStyle: {
-              backgroundColor: '#0EDFBD'
+              backgroundColor: '#5bb7b6'
             },
             tabBarActiveTintColor: 'white',
             tabBarInactiveTintColor: 'gray'
@@ -44,19 +44,20 @@ export default function TabLayout() {
               color: 'white'
             },
             headerStyle: {
-              backgroundColor: '#0EDFBD'
+              backgroundColor: '#5bb7b6'
             },
             headerRight: () => <MenuHeader/>,
             
             tabBarIcon: () => <MaterialCommunityIcons name="account-circle" size={24} color='white'/>,
             tabBarStyle: {
-              backgroundColor: '#0EDFBD'
+              backgroundColor: '#5bb7b6'
             },
             tabBarActiveTintColor: 'white',
             tabBarInactiveTintColor: 'gray'
           }}
         />
       </Tabs>
+      
     </PaperProvider>
   );
 }

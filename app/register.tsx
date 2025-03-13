@@ -1,12 +1,12 @@
 import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 const register = () => {
     const router = useRouter()
   return (
-    <LinearGradient colors={['#0EDFBD', '#C60000']}
+    <LinearGradient colors={['#1b8798', '#44749d']}
         style={styles.container}
         start={{ x: 0, y: 0 }}
         end={{ x: 0, y: 1 }}
@@ -14,15 +14,15 @@ const register = () => {
     >
      <View style={styles.formContainer}>
         <View style={styles.logoContainer}>
-            <AntDesign style={styles.logo} name="bank" />
-            <Text style={{color: '#FFF', fontSize:32, marginBottom: 20}}>Ecommerce IA</Text>
+            <Image source={require('../assets/images/logo.png')} style={styles.logo} />
+            <Text style={{color: '#FFF', fontSize:32, marginBottom: 20}}>ClosetX</Text>
         </View>
         <TextInput style={styles.input} placeholder='Nome Completo*'/>
         <TextInput style={styles.input} placeholder='E-mail'/>
         <TextInput style={styles.input} placeholder='Senha' />
         <TextInput style={styles.input} placeholder='Repetir Senha' secureTextEntry/>
         <TouchableOpacity onPress={()=> router.replace('/(tabs)/home')} style={styles.loginButton}><Text style={{color: '#FFF'}}>Enviar</Text></TouchableOpacity>
-        <TouchableOpacity onPress={()=> router.replace('/welcome')} style={styles.backButton}><Text style={{color: '#0EDFBD'}}>Voltar</Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=> router.replace('/')} style={styles.backButton}><Text style={{color: '#0EDFBD'}}>Voltar</Text></TouchableOpacity>
     
     </View>   
 
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 50,
         marginBottom: 10,
-        backgroundColor: '#0EDFBD',
+        backgroundColor: '#5bb7b6',
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: '#0EDFBD',
+        borderColor: '#5bb7b6',
     },
     input: {
         width: '100%',
@@ -80,7 +80,18 @@ const styles = StyleSheet.create({
         height: 40,
         borderRadius: 5,
         marginBottom: 10
+    },
+    logoContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 20
+    },
+    logo: {
+        width: 140,  // Ajuste conforme necessário
+        height: 140, // Ajuste conforme necessário
+        resizeMode: 'contain'
     }
+    
 
 })
 

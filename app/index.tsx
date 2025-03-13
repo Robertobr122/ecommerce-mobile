@@ -1,77 +1,34 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
-const login = () => {
+const welcome = () => {
     const router = useRouter()
-
-    const [email, setEmail] = useState({value: '', dirty: false});
-    const [password, setPassword] = useState({value: '', dirty: false});
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
-    const handleErrorEmail = () => {
-        if(!email.value && email.dirty) {
-            return <Text style={styles.error}>Campo obrigatório</Text>
-        } else if (!emailRegex.test(email.value) && email.dirty) {
-            return <Text style={styles.error}>E-mail inválido</Text>
-        } else {
-            return <Text style={styles.error}></Text> 
-        }
-    }
-
-    const handleErrorPassword = () => {
-        if(!password.value && password.dirty) {
-            return <Text style={styles.error}>Campo obrigatório</Text>
-        } else {
-            return <Text style={styles.error}></Text> 
-        }
-    }
-
-    const handleErrorForm = () => {
-        let hasError = false;
-        if(!password.value) {
-          setPassword({value: password.value, dirty: true})
-          hasError = true;
-        }
-    
-        if(!email.value) {
-          setEmail({value: email.value, dirty: true})
-          hasError = true
-        }
-        
-        if (!emailRegex.test(email.value)) {
-          setEmail({value: email.value, dirty: true})
-          hasError = true
-        }
-    
-        if(!hasError) {
-            router.replace('/(tabs)/home')
-        }
-      } 
   return (
-    <LinearGradient colors={['#0EDFBD', '#0950AB']}
+    <LinearGradient colors={['#1b8798', '#44749d']}
         style={styles.container}
         start={{ x: 0, y: 0 }}
         end={{ x: 0, y: 1 }}
 
     >
-     <View style={styles.formContainer}>
-        <View style={styles.logoContainer}>
-            <AntDesign style={styles.logo} name="bank" />
-            <Text style={{color: '#FFF', fontSize:32, marginBottom: 20}}>Ecommerce IA</Text>
-        </View>
-        <TextInput style={styles.input} placeholder='E-mail' onChangeText={(text) => {setEmail({value: text, dirty: true})}}/>
-        {handleErrorEmail()}
-        <TextInput style={styles.input} placeholder='Senha' onChangeText={(text) => {setPassword({value: text, dirty: true})}} secureTextEntry/>
-        {handleErrorPassword()}
-        <TouchableOpacity onPress={()=> handleErrorForm()} style={styles.loginButton}><Text style={{color: '#FFF'}}>Entrar</Text></TouchableOpacity>
-        <TouchableOpacity onPress={()=> router.replace('/welcome')} style={styles.backButton}><Text style={{color: '#0EDFBD'}}>Voltar</Text></TouchableOpacity>
-    
-    </View>   
+   <View style={styles.formContainer}>
+                <View style={styles.logoContainer}>
+                    <Image source={require('../assets/images/logo.png')} style={styles.logo} />
+                    <Text style={styles.title}>ClosetX</Text>
+                    <Text style={styles.subtitle}>Seja Bem-vindo!</Text>
+                </View>
 
-    </LinearGradient>
-  )
+                <TouchableOpacity onPress={() => router.replace('/login')} style={styles.loginButton}>
+                    <Text style={styles.buttonText}>Login</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => router.replace('/register')} style={styles.registerButton}>
+                    <Text style={styles.registerText}>Registrar</Text>
+                </TouchableOpacity>
+            </View>   
+        </LinearGradient>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -87,28 +44,36 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     logoContainer: {
-        color: '#FFF',
-        borderRadius: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        alignSelf: 'center',
+        marginBottom: 20
     },
     logo: {
-        fontSize: 100,
-        marginBottom: 20,
+        width: 140,  // Ajuste conforme necessário
+        height: 140, // Ajuste conforme necessário
+        resizeMode: 'contain'
+    },
+    title: {
         color: '#FFF',
+        fontSize: 36,
+        fontWeight: 'bold',
+        marginTop: 0
+    },
+    subtitle: {
+        color: '#FFF',
+        fontSize: 18,
+        marginBottom: 20
     },
     loginButton: {
         width: '100%',
         height: 50,
-        marginBottom: 10,
-        backgroundColor: '#0EDFBD',
+        backgroundColor: '#5bb7b6',
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 20
+        marginBottom: 10
     },
-    backButton: {
+    registerButton: {
         width: '100%',
         height: 50,
         backgroundColor: '#FFF',
@@ -116,23 +81,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: '#0EDFBD',
+        borderColor: '#5bb7b6',
     },
-    input: {
-        width: '100%',
-        backgroundColor: 'white',
-        height: 40,
-        borderRadius: 5
-    },
-    error: {
-        width: '100%',
-        marginBottom: 20,
+    buttonText: {
         color: '#FFF',
-        fontWeight: 'bold',
-        height: 20,
-        fontSize: 14
+        fontSize: 16,
+        fontWeight: 'bold'
+    },
+    registerText: {
+        color: '#5bb7b6',
+        fontSize: 16,
+        fontWeight: 'bold'
     }
+});
 
-})
-
-export default login
+export default welcome

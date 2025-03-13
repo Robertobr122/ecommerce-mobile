@@ -87,7 +87,7 @@ export default function LoginScreen() {
         </TouchableOpacity>
 
         {/* Botão de Voltar */}
-        <TouchableOpacity style={styles.button} onPress={() => router.replace('/welcome')}>
+        <TouchableOpacity style={styles.button} onPress={() => router.replace('/')}>
           <Text style={styles.buttonText}>Voltar</Text>
         </TouchableOpacity>
       </View>
