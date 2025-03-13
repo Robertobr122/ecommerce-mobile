@@ -42,18 +42,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    logoContainer: {
-        color: '#FFF',
-        borderRadius: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignSelf: 'center',
-    },
-    logo: {
-        fontSize: 100,
-        marginBottom: 20,
-        color: '#FFF',
-    },
+    
     loginButton: {
         width: '100%',
         height: 50,
