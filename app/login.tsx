@@ -1,4 +1,3 @@
-// app/login.tsx
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -7,13 +6,53 @@ import { useRouter } from 'expo-router';
 export default function LoginScreen() {
   const router = useRouter();
 
-  // Estados para armazenar email e senha
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState({ value: '', dirty: false });
+  const [password, setPassword] = useState({ value: '', dirty: false });
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const handleErrorEmail = () => {
+    if (!email.value && email.dirty) {
+      return <Text style={styles.error}>Campo obrigatório</Text>;
+    } else if (!emailRegex.test(email.value) && email.dirty) {
+      return <Text style={styles.error}>E-mail inválido</Text>;
+    } else {
+      return null;
+    }
+  };
+
+  const handleErrorPassword = () => {
+    if (!password.value && password.dirty) {
+      return <Text style={styles.error}>Campo obrigatório</Text>;
+    } else {
+      return null;
+    }
+  };
+
+  const handleLogin = () => {
+    let hasError = false;
+
+    if (!email.value) {
+      setEmail({ value: email.value, dirty: true });
+      hasError = true;
+    }
+    if (!password.value) {
+      setPassword({ value: password.value, dirty: true });
+      hasError = true;
+    }
+    if (!emailRegex.test(email.value)) {
+      setEmail({ value: email.value, dirty: true });
+      hasError = true;
+    }
+
+    if (!hasError) {
+      router.replace('/(tabs)/home')
+    }
+  };
 
   return (
     <LinearGradient
-      colors={['#4c6699', '#3b5998', '#192f6a']}
+      colors={['#1b8798', '#44749d']}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       style={styles.gradientBackground}
@@ -26,9 +65,10 @@ export default function LoginScreen() {
           style={styles.input}
           placeholder="Digite seu email"
           placeholderTextColor="#999"
-          value={email}
-          onChangeText={setEmail}
+          value={email.value}
+          onChangeText={(text) => setEmail({ value: text, dirty: true })}
         />
+        {handleErrorEmail()}
 
         {/* Campo de Senha */}
         <TextInput
@@ -36,23 +76,18 @@ export default function LoginScreen() {
           placeholder="Digite sua senha"
           placeholderTextColor="#999"
           secureTextEntry
-          value={password}
-          onChangeText={setPassword}
+          value={password.value}
+          onChangeText={(text) => setPassword({ value: text, dirty: true })}
         />
+        {handleErrorPassword()}
 
         {/* Botão de Entrar */}
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => console.log('Fazer login')}
-        >
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>Entrar</Text>
         </TouchableOpacity>
 
         {/* Botão de Voltar */}
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => router.replace('/')}
-        >
+        <TouchableOpacity style={styles.button} onPress={() => router.replace('/welcome')}>
           <Text style={styles.buttonText}>Voltar</Text>
         </TouchableOpacity>
       </View>
@@ -83,6 +118,13 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 15,
     marginTop: 10,
+  },
+  error: {
+    width: '100%',
+    color: '#FF5733',
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginTop: 5,
   },
   button: {
     marginTop: 10,
