@@ -7,24 +7,20 @@ const Cart = () => {
   const { cart, removeFromCart } = useCart();
   const [showPaymentModal, setShowPaymentModal] = useState(false);
 
-  // Calcula o valor total dos itens no carrinho
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const handleCheckout = () => {
-    // Exibe o modal de pagamento
     setShowPaymentModal(true);
   };
 
   const handlePaymentCard = () => {
     setShowPaymentModal(false);
     console.log("Pagamento com Cartão selecionado");
-    // Lógica de processamento de pagamento com cartão pode ser implementada aqui
   };
 
   const handlePaymentPix = () => {
     setShowPaymentModal(false);
     console.log("Pagamento com PIX selecionado");
-    // Lógica de processamento de pagamento com PIX pode ser implementada aqui
   };
 
   return (
@@ -78,7 +74,6 @@ const Cart = () => {
           <View style={styles.modalBackground}>
             <View style={styles.modalContainer}>
               <Text style={styles.modalTitle}>Opções de Pagamento</Text>
-              {/* Exibe o total no modal */}
               <Text style={styles.modalTotal}>Total: R$ {total.toFixed(2)}</Text>
               <TouchableOpacity style={styles.paymentButton} onPress={handlePaymentCard}>
                 <Text style={styles.paymentButtonText}>Cartão</Text>
