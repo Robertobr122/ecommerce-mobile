@@ -3,7 +3,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
-const welcome = () => {
+const index = () => {
     const router = useRouter()
   return (
     <LinearGradient colors={['#1b8798', '#44749d']}
@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
     logo: {
-        width: 140,  // Ajuste conforme necessário
-        height: 140, // Ajuste conforme necessário
+        width: 140,  
+        height: 140, 
         resizeMode: 'contain'
     },
     title: {
@@ -95,4 +95,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default welcome
+export default index

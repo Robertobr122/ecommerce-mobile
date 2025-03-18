@@ -1,16 +1,16 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useCart } from './cartContext';  // Importando o useCart
+import { useCart } from './cartContext'; 
 
 const products = [
-  { id: '1', name: 'Produto 1' },
-  { id: '2', name: 'Produto 2' },
-  { id: '3', name: 'Produto 3' },
+  { id: '1', name: 'Produto 1', price: 10.0 },
+  { id: '2', name: 'Produto 2', price: 15.5 },
+  { id: '3', name: 'Produto 3', price: 20.0 },
 ];
 
 const Home = () => {
-  const { addToCart } = useCart(); // Hook para acessar a função addToCart
+  const { addToCart } = useCart(); 
 
   return (
     <LinearGradient colors={['#f0f4f7', '#d9e3f0']} style={styles.gradientBackground}>
@@ -22,8 +22,14 @@ const Home = () => {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View style={styles.productItem}>
-              <Text style={styles.productText}>{item.name}</Text>
-              <TouchableOpacity style={styles.button} onPress={() => addToCart({ ...item, quantity: 1 })}>
+              <View>
+                <Text style={styles.productText}>{item.name}</Text>
+                <Text style={styles.productPrice}>R$ {item.price.toFixed(2)}</Text>
+              </View>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => addToCart({ ...item, quantity: 1 })}
+              >
                 <Text style={styles.buttonText}>Adicionar</Text>
               </TouchableOpacity>
             </View>
@@ -83,6 +89,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+
+  productPrice: {
+    fontSize: 16,
+    color: '#555',
+  },
+
 });
 
 export default Home;

@@ -4,6 +4,7 @@ import Toast from 'react-native-toast-message';
 type Product = {
   id: string;
   name: string;
+  price: number; 
   quantity: number;
 };
 
@@ -35,14 +36,12 @@ export const CartProvider = ({ children }: CartProviderProps) => {
       const existingProduct = prevCart.find((item) => item.id === product.id);
       
       if (existingProduct) {
-        // Caso o produto já esteja no carrinho, só aumentar a quantidade
         const updatedCart = prevCart.map((item) =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
 
-        // Exibe a notificação de adição
         Toast.show({
           type: 'success',
           position: 'top',
@@ -52,10 +51,8 @@ export const CartProvider = ({ children }: CartProviderProps) => {
 
         return updatedCart;
       } else {
-        // Caso o produto não esteja no carrinho, adiciona ele com a quantidade 1
         const updatedCart = [...prevCart, { ...product, quantity: 1 }];
 
-        // Exibe a notificação de adição
         Toast.show({
           type: 'success',
           position: 'top',

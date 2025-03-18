@@ -60,7 +60,6 @@ export default function LoginScreen() {
       <View style={styles.container}>
         <Text style={styles.title}>Entrar</Text>
 
-        {/* Campo de Email */}
         <TextInput
           style={styles.input}
           placeholder="Digite seu email"
@@ -70,7 +69,6 @@ export default function LoginScreen() {
         />
         {handleErrorEmail()}
 
-        {/* Campo de Senha */}
         <TextInput
           style={styles.input}
           placeholder="Digite sua senha"
@@ -81,12 +79,10 @@ export default function LoginScreen() {
         />
         {handleErrorPassword()}
 
-        {/* Botão de Entrar */}
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>Entrar</Text>
         </TouchableOpacity>
 
-        {/* Botão de Voltar */}
         <TouchableOpacity style={styles.button} onPress={() => router.replace('/')}>
           <Text style={styles.buttonText}>Voltar</Text>
         </TouchableOpacity>

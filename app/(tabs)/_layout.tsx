@@ -4,7 +4,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { PaperProvider } from 'react-native-paper';
 import MenuHeader from '@/components/MenuHeader';
-import { CartProvider } from './cartContext'; // Importando o CartProvider
+import { CartProvider } from './cartContext'; 
 import Toast from 'react-native-toast-message';
 
 export default function TabLayout() {
@@ -30,7 +30,7 @@ export default function TabLayout() {
               title: 'Home',
               headerRight: () => <MenuHeader />,
               tabBarIcon: () => (
-                <MaterialCommunityIcons name="home" size={24} color="white" />
+                <MaterialCommunityIcons name="home" size={30} color="white" />
               ),
               tabBarStyle: {
                 backgroundColor: '#5bb7b6',
@@ -53,7 +53,7 @@ export default function TabLayout() {
               },
               headerRight: () => <MenuHeader />,
               tabBarIcon: () => (
-                <MaterialCommunityIcons name="account-circle" size={24} color="white" />
+                <MaterialCommunityIcons name="account-circle" size={30} color="white" />
               ),
               tabBarStyle: {
                 backgroundColor: '#5bb7b6',
