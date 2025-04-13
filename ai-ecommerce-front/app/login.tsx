@@ -1,11 +1,12 @@
+// app/login.tsx
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
+import { API_BASE_URL } from './config';  // exemplo de import, se houver
 
 export default function LoginScreen() {
   const router = useRouter();
-
   const [email, setEmail] = useState({ value: '', dirty: false });
   const [password, setPassword] = useState({ value: '', dirty: false });
 
@@ -29,7 +30,7 @@ export default function LoginScreen() {
     }
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     let hasError = false;
 
     if (!email.value) {
@@ -46,7 +47,23 @@ export default function LoginScreen() {
     }
 
     if (!hasError) {
-      router.replace('/(tabs)/home')
+      try {
+        const response = await fetch(`${API_BASE_URL}/user/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ login: email.value, password: password.value })
+        });
+        if (response.ok) {
+          const user = await response.json();
+          // Você pode salvar o usuário em um contexto global se necessário
+          router.replace('/(tabs)/home');
+        } else {
+          Alert.alert('Login inválido', 'Confira suas credenciais.');
+        }
+      } catch (error) {
+        console.error('Erro de login:', error);
+        Alert.alert('Erro', 'Não foi possível fazer login.');
+      }
     }
   };
 
