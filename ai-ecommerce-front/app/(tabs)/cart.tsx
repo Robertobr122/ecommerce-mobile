@@ -1,11 +1,33 @@
-import React, { useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Modal } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Modal, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useCart } from './cartContext';
+import { API_BASE_URL } from '../config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+
 
 const Cart = () => {
   const { cart, removeFromCart } = useCart();
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const user = await AsyncStorage.getItem('user');
+        if (user) {
+          const parsedUser = JSON.parse(user);
+          setUserId(parsedUser._id); 
+        }
+      } catch (error) {
+        console.error('Erro ao recuperar usuário', error);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
@@ -13,14 +35,47 @@ const Cart = () => {
     setShowPaymentModal(true);
   };
 
-  const handlePaymentCard = () => {
-    setShowPaymentModal(false);
-    console.log("Pagamento com Cartão selecionado");
+  const finalizePurchase = async () => { 
+    if (!userId) {
+      Alert.alert('Erro', 'Usuário não encontrado. Por favor, faça o login novamente.');
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/cart/finalize`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          userId,
+          cart
+         }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        Alert.alert('Sucesso', 'Compra finalizada com sucesso!'); 
+      } else {
+        Alert.alert('Erro', result.message || 'Erro ao finalizar a compra.'); 
+      }
+    } catch (error) {
+      console.error('Erro na finalização:', error);
+      Alert.alert('Erro', 'Erro ao finalizar a compra.'); 
+    }
   };
 
-  const handlePaymentPix = () => {
+  const handlePaymentCard = () => { 
     setShowPaymentModal(false);
-    console.log("Pagamento com PIX selecionado");
+    console.log('Pagamento com Cartão selecionado');
+    finalizePurchase(); 
+  };
+
+  const handlePaymentPix = () => { 
+    setShowPaymentModal(false);
+    console.log('Pagamento com PIX selecionado');
+    finalizePurchase(); 
   };
 
   return (

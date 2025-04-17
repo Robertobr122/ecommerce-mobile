@@ -8,6 +8,7 @@ import { CartProvider } from './(tabs)/cartContext';
 import { TouchableOpacity } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 import { useColorScheme } from '@/hooks/useColorScheme';

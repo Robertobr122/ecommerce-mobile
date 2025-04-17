@@ -12,7 +12,7 @@ class Message {
   }
 }
 
-let ws: WebSocket;
+const ws = new WebSocket("ws://10.5.7.186:3000")
 const Chat = () => {
   const scrollRef = useRef<FlatList>(null)
   const params = useLocalSearchParams()
@@ -23,14 +23,15 @@ const Chat = () => {
   ) // FORÇA userData a ser uma string
   
 
+
   useEffect(() => {
-    ws = new WebSocket("ws://192.168.0.49:3000")
     ws.onopen = () => {
       console.log("Websocket funcionando!")
     }
 
     ws.onmessage = ({ data }: any) => {
         const { text, sentBy } = JSON.parse(data)
+        if (sentBy === userData) return; // Evita duplicado
         const msg = new Message(text, sentBy) // instância da classe Message
         setMessages(prev => [...prev, msg])
         InteractionManager.runAfterInteractions(() => {
@@ -54,7 +55,7 @@ const Chat = () => {
     <Fragment>
       <FlatList
         ref={scrollRef}
-        data={messages} // ALTERADO
+        data={messages}
         keyExtractor={(item, index) => `${item.sentBy}-${item.text}-${index}`}
         renderItem={({ item }) => <Balloon message={item} userLogged={userData} />}
         ListEmptyComponent={() => <Text style={{ alignSelf: 'center', color: '#848484' }}>Sem mensagens no momento</Text>} />

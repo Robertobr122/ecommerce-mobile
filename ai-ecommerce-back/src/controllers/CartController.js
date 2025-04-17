@@ -67,38 +67,58 @@ const cartController = {
   // Finalizar compra e limpar o carrinho
   finalizePurchase: async (req, res) => {
     try {
-      const { userId } = req.body;
-      let cart = await CartModel.findOne({ user: userId }).populate('items.product');
-      if (!cart || cart.items.length === 0) {
-        return res.status(400).json({ message: "Cart is empty" });
+      const { userId, cart } = req.body;
+  
+      if (!cart || !Array.isArray(cart) || cart.length === 0) {
+        return res.status(400).json({ message: "Carrinho vazio ou inválido." });
+      }
+  
+      let totalPrice = 0;
+      const purchaseItems = [];
+  
+      // Criação da compra e cálculo do total
+
+
+      for (const item of cart) {
+        if (!item.id || !item.name || !item.price || !item.quantity) {
+          return res.status(400).json({ message: "Dados do item inválidos." });
       }
 
-      let totalPrice = 0;
-      const purchaseItems = cart.items.map(item => {
-        totalPrice += item.price * item.quantity;
-        return {
-          productName: item.product.name,
-          itemPrice: item.price,
-          quantity: item.quantity
-        };
-      });
+      const subtotal = item.price * item.quantity;
+      totalPrice += subtotal;
 
+      console.log(item.id)
+      console.log(item.name)
+
+      purchaseItems.push({
+        productId: item.id,
+        productName: item.name,
+        itemPrice: item.price,
+        quantity: item.quantity
+      });
+    }
+  
+      // Criação da compra no banco
       const purchase = await PurchaseModel.create({
         user: userId,
         items: purchaseItems,
         totalPrice,
         purchaseDate: new Date()
       });
-
-      // Limpar carrinho
-      cart.items = [];
-      await cart.save();
-
-      res.json({ message: "Purchase completed", purchase });
+  
+      // Limpar os itens do carrinho após a compra
+      const cartToUpdate = await CartModel.findOne({ user: userId });
+      if (cartToUpdate) {
+        cartToUpdate.items = [];  // Limpando os itens
+        await cartToUpdate.save(); // Salvando a atualização do carrinho no banco
+      }
+  
+      res.json({ message: "Compra finalizada com sucesso!", purchase });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   }
+  
 };
 
 export default cartController;

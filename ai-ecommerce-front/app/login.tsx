@@ -4,6 +4,8 @@ import { View, Text, TouchableOpacity, TextInput, StyleSheet, Alert } from 'reac
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { API_BASE_URL } from './config';  // exemplo de import, se houver
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -55,7 +57,10 @@ export default function LoginScreen() {
         });
         if (response.ok) {
           const user = await response.json();
-          // Você pode salvar o usuário em um contexto global se necessário
+
+          console.log("salvou")
+          await AsyncStorage.setItem('user', JSON.stringify(user));  // Salva o usuário no AsyncStorage
+          
           router.replace('/(tabs)/home');
         } else {
           Alert.alert('Login inválido', 'Confira suas credenciais.');

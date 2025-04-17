@@ -1,5 +1,6 @@
 // src/controllers/UserController.js
 import UserModel from '../models/UserModel.js';
+import AiService from '../services/AiService.js';
 
 const userController = {
   register: async (req, res) => {
@@ -31,6 +32,17 @@ const userController = {
     } catch(error) {
       res.status(500).json({ error: error.message });
     }
+  },
+
+  prompt: async(req, res) => {
+    const result = await AiService.prompt(req.body.prompt)
+    res.status(200).json(result.text())
+  },
+
+  longContext: async(req, res) => {
+    const pdfPath = "caminho"
+    const result = await AiService.longContext(req.body.prompt, pdfPath)
+    res.status(200).json(result.text())
   }
 };
 
